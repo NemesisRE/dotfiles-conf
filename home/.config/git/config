@@ -1,6 +1,9 @@
 [core]
 	editor = vim
 
+[init]
+  defaultBranch = main
+
 [diff]
 	tool = vimdiff
 
