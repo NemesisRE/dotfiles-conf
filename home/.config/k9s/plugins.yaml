@@ -118,7 +118,7 @@ plugins:
     - -c
     - "flux --context $CONTEXT reconcile kustomization -n $NAMESPACE $NAME | less"
   trace:
-    shortCut: Shift-A
+    shortCut: Shift-T
     confirm: false
     description: Flux trace
     scopes:
@@ -177,3 +177,14 @@ plugins:
     args:
       - -c
       - "kubectl certificate approve --context $CONTEXT $NAME"
+
+  reboot-node:
+    shortCut: Shift-R
+    confirm: true
+    description: Reboot node via SSH
+    scopes:
+      - node
+    command: bash
+    background: false
+    args:
+      - -c
