@@ -44,16 +44,16 @@
   help = <Primary>F1
 [profiles]
   [[default]]
-    background_color = "#1d1f21"
+    background_color = "#282C34"
     background_darkness = 0.93
     background_type = transparent
     cursor_blink = False
     cursor_color = "#c5c8c6"
-    font = DejaVuSansMono Nerd Font Mono 10
-    foreground_color = "#d3dae3"
+    font = FiraCode Nerd Font Mono 12
+    foreground_color = "#abb2bf"
     scrollback_lines = 5000
     scrollback_infinite = True
-    palette = "#2e3436:#cc342b:#198844:#fba922:#3971ed:#a36ac7:#008596:#c5c8c6:#969896:#cc342b:#198844:#fba922:#3971ed:#a36ac7:#008596:#ffffff"
+    palette = "#3f4451:#e05561:#8cc265:#d18f52:#4aa5f0:#c162de:#42b3c2:#e6e6e6:#4f5666:#ff616e:#a5e075:#f0a45d:#4dc4ff:#de73ff:#4cd1e0:#d7dae0"
     use_system_font = False
     copy_on_selection = True
 [layouts]
