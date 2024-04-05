@@ -1,17 +1,10 @@
 [global_config]
-  handle_size = 1
   window_state = maximise
   borderless = True
   tab_position = bottom
   scroll_tabbar = True
-  homogeneous_tabbar = False
   always_on_top = True
   sticky = True
-  title_hide_sizetext = True
-  title_transmit_fg_color = "#c5c8c6"
-  title_transmit_bg_color = "#a40000"
-  title_inactive_fg_color = "#c5c8c6"
-  title_inactive_bg_color = "#969896"
   inactive_color_offset = 1.0
   enabled_plugins = InactivityWatch, CustomCommandsMenu, TerminalShot, APTURLHandler
 [keybindings]
@@ -45,17 +38,21 @@
 [profiles]
   [[default]]
     background_color = "#282C34"
-    background_darkness = 0.93
+    background_darkness = 0.95
     background_type = transparent
     cursor_blink = False
-    cursor_color = "#c5c8c6"
-    font = FiraCode Nerd Font Mono 12
+    cursor_fg_color = "#282c34"
+    cursor_bg_color = "#abb2bf"
+    font = FiraCode Nerd Font Mono 11
     foreground_color = "#abb2bf"
     scrollback_lines = 5000
     scrollback_infinite = True
     palette = "#3f4451:#e05561:#8cc265:#d18f52:#4aa5f0:#c162de:#42b3c2:#e6e6e6:#4f5666:#ff616e:#a5e075:#f0a45d:#4dc4ff:#de73ff:#4cd1e0:#d7dae0"
     use_system_font = False
     copy_on_selection = True
+    title_receive_bg_color = "#4aa5f0"
+    title_use_system_font = False
+    title_font = Fira Code 12
 [layouts]
   [[default]]
     [[[child1]]]
