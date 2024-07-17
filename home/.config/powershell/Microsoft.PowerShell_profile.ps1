@@ -27,6 +27,7 @@ if ( ${isWindows} ) {
   [Void]${MODULES}.Add("GuiCompletion")
 } elseif ( ${isLinux} ) {
   ${ENV:PATH} += ";${HOME}/.local/bin"
+  ${ENV:POSH_THEMES_PATH} = "${ENV:XDG_CACHE_HOME}/oh-my-posh/themes"
 }
 
 if (Test-Path "${SCRIPT_PATH}\Local_Modules.ps1") {
@@ -42,11 +43,7 @@ foreach (${MODULE} in ${MODULES}) {
 
 # Set Powershell Theme
 if (Get-Command oh-my-posh -errorAction SilentlyContinue) {
-  if ( ${isWindows} ) {
-    oh-my-posh init pwsh --config "$ENV:POSH_THEMES_PATH\powerlevel10k_rainbow.omp.json" | Invoke-Expression
-  } elseif ( ${isLinux} ) {
-    oh-my-posh init pwsh --config "${SCRIPT_PATH}\themes\powerlevel10k_rainbow.omp.json" | Invoke-Expression
-  }
+  oh-my-posh init pwsh --config "${ENV:POSH_THEMES_PATH}\powerlevel10k_rainbow.omp.json" | Invoke-Expression
 }
 
 # Set PSReadLine options
