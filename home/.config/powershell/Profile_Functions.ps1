@@ -16,6 +16,54 @@ function LoadModule (${MODULE}) {
   }
 }
 
+function UpdateModule (${MODULE}) {
+  if (Get-Module | Where-Object { $_.Name -eq ${MODULE} }) -or (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} }) {
+    if (NredfLastRun -CurrentFunction [string]$(Get-PSCallStack)[0].FunctionName + "_" + ${MODULE}
+    Update-Module -Name ${MODULE}
+  }
+}
+
+function NredfLastRun {
+  param (
+    [Parameter(Mandatory=$false)]
+    [string] $CurrentFunction,
+    [Parameter(Mandatory=$false)]
+    [bool] $Success = $false,
+    [Parameter(Mandatory=$false)]
+    [int] $NextRun = (Get-Date).AddHours(12).Ticks
+  )
+
+  if (-not [string]::IsNullOrEmpty($CurrentFunction)) {
+    $CurrentFunction
+  } elseif (Get-Command Get-PSCallStack -errorAction SilentlyContinue) {
+    # Get caller function name (limited to PowerShell v5.1)
+    $CurrentFunction = (Get-PSCallStack)[1].FunctionName
+  } elseif (Get-Module | Where-Object { $_.Name -eq "PSReadLine") {
+    $CurrentFunction = (Get-PSReadLineHistory -Count 1).PreviousInputObject.Split(' ')[-2]
+  }
+
+  # Create last run cache directory if it doesn't exist
+  if (-not (Test-Path -Path ${ENV:NREDF_LRCACHE})) {
+    New-Item -Path ${ENV:NREDF_LRCACHE} -ItemType Directory
+  }
+
+  # Define last run file path
+  $LastRunFile = Join-Path -Path ${ENV:NREDF_LRCACHE} -ChildPath ("last_run_${CurrentFunction}.txt")
+
+  # Get Last Run Time (default 0 if file doesn't exist)
+  $LastRun = (Get-Content -Path $LastRunFile -ErrorAction SilentlyContinue | ConvertTo-Int32 -ErrorAction SilentlyContinue) -or 0
+
+  # Check for previous run
+  if ($LastRun -gt (Get-Date).Ticks) {
+    return 0
+  } elseif ($Success) {
+    Set-Content -Path $LastRunFile -Value $NextRun
+    return 0
+  } else {
+    return 1
+  }
+}
+
 # Clear current command line but save in history
 function SaveInHistory {
   $LINE = $null
