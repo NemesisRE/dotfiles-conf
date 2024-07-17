@@ -39,7 +39,7 @@ function NredfLastRun {
   } elseif (Get-Command Get-PSCallStack -errorAction SilentlyContinue) {
     # Get caller function name (limited to PowerShell v5.1)
     $CurrentFunction = (Get-PSCallStack)[1].FunctionName
-  } elseif (Get-Module | Where-Object { $_.Name -eq "PSReadLine") {
+  } elseif (Get-Module | Where-Object { $_.Name -eq "PSReadLine"}) {
     $CurrentFunction = (Get-PSReadLineHistory -Count 1).PreviousInputObject.Split(' ')[-2]
   }
 
