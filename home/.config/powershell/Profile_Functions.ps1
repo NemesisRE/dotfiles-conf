@@ -18,8 +18,9 @@ function LoadModule (${MODULE}) {
 
 function UpdateModule (${MODULE}) {
   if ((Get-Module | Where-Object { $_.Name -eq ${MODULE} }) -or (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} })) {
-    if (NredfLastRun -CurrentFunction [string]$(Get-PSCallStack)[0].FunctionName + "_" + ${MODULE}
-    Update-Module -Name ${MODULE}
+    if (NredfLastRun -CurrentFunction [string]$(Get-PSCallStack)[0].FunctionName + "_" + ${MODULE}) {
+      Update-Module -Name ${MODULE}
+    }
   }
 }
 
