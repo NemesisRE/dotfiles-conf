@@ -14,7 +14,6 @@ ${SCRIPT_PATH} = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
 ${MODULES} = New-Object System.Collections.ArrayList
 [Void]${MODULES}.Add("PSReadLine")
-#[Void]${MODULES}.Add("oh-my-posh")
 [Void]${MODULES}.Add("posh-git")
 [Void]${MODULES}.Add("PSFzf")
 [Void]${MODULES}.Add("Recycle")
@@ -43,7 +42,11 @@ foreach (${MODULE} in ${MODULES}) {
 
 # Set Powershell Theme
 if (Get-Command oh-my-posh -errorAction SilentlyContinue) {
-  oh-my-posh init pwsh --config "$ENV:POSH_THEMES_PATH\powerlevel10k_rainbow.omp.json" | Invoke-Expression
+  if ( ${isWindows} ) {
+    oh-my-posh init pwsh --config "$ENV:POSH_THEMES_PATH\powerlevel10k_rainbow.omp.json" | Invoke-Expression
+  } elseif ( ${isLinux} ) {
+    oh-my-posh init pwsh --config "${SCRIPT_PATH}\themes\powerlevel10k_rainbow.omp.json" | Invoke-Expression
+  }
 }
 
 # Set PSReadLine options
