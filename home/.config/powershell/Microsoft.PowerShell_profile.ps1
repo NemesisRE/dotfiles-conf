@@ -26,7 +26,7 @@ if ( ${isWindows} ) {
   ${ENV:PATH} += ";${HOME}\.local\bin"
   [Void]${MODULES}.Add("GuiCompletion")
 } elseif ( ${isLinux} ) {
-  ${ENV:PATH} += ";${HOME}/.local/bin"
+  ${ENV:PATH} += ";${XDG_BIN_HOME}"
   ${ENV:POSH_THEMES_PATH} = "${ENV:XDG_CACHE_HOME}/oh-my-posh/themes"
 }
 
@@ -72,9 +72,6 @@ $MaximumHistoryCount = 10000;
 
 # PSFzf settings
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-
-# Reload $ENV:PATH
-${ENV:PATH} = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
 
 # Register Completions
 Register-PSKubeContextComplete
