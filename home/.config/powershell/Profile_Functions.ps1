@@ -1,18 +1,22 @@
 # Install and Import given module
-function LoadModule (${MODULE}) {
-  if (Get-Module | Where-Object { $_.Name -eq ${MODULE} }) {
-    # If module is already imported say nothing
-  } elseif (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} }) {
-    # If module is not imported, but available on disk then import
-    Import-Module ${MODULE}
-  } elseif (Find-Module -Name ${MODULE} | Where-Object { $_.Name -eq ${MODULE} }) {
-    # If module is not imported, not available on disk, but is in an online gallery then install and import
-    Write-Host "Module ${MODULE} will be installed"
-    Install-Module -Name ${MODULE} -Force -Scope CurrentUser
-    Import-Module ${MODULE}
-  } else {
-    # If the module is not imported, not available and not in an online gallery then abort
-    Write-Host "Module ${MODULE} not imported, not available and not in an online gallery, exiting."
+function LoadModules (${MODULES}) {
+  foreach (${MODULE} in ${MODULES}) {
+    if (Get-Module | Where-Object { $_.Name -eq ${MODULE} }) {
+      # If module is already imported say nothing
+      UpdateModule ${MODULE}
+    } elseif (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} }) {
+      # If module is not imported, but available on disk then import
+      UpdateModule ${MODULE}
+      Import-Module ${MODULE}
+    } elseif (Find-Module -Name ${MODULE} | Where-Object { $_.Name -eq ${MODULE} }) {
+      # If module is not imported, not available on disk, but is in an online gallery then install and import
+      Write-InfoLog "Module ${MODULE} will be installed"
+      Install-Module -Name ${MODULE} -Force -Scope CurrentUser
+      Import-Module ${MODULE}
+    } else {
+      # If the module is not imported, not available and not in an online gallery then abort
+      Write-WarningLog "Module ${MODULE} not imported, not available and not in an online gallery, exiting."
+    }
   }
 }
 

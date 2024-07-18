@@ -1,46 +1,18 @@
-# Set Aliases (need to be first to make completion work)
-Set-Alias k -Value kubectl
-Set-Alias kns -Value Select-KubeNamespace
-Set-Alias kctx -Value Select-KubeContext
-
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Trusted
 
-# Set Profile Path
-#${PROFILE_PATH} = Split-Path -Path ${PROFILE}
 ${SCRIPT_PATH} = Split-Path -Parent $MyInvocation.MyCommand.Definition
-# Source functions
+. "${SCRIPT_PATH}\Defaults.ps1"
+. "${SCRIPT_PATH}\Aliases.ps1"
 . "${SCRIPT_PATH}\Profile_Functions.ps1"
 . "${SCRIPT_PATH}\Kubectl_Completion.ps1"
-
-${MODULES} = New-Object System.Collections.ArrayList
-[Void]${MODULES}.Add("PSReadLine")
-[Void]${MODULES}.Add("posh-git")
-[Void]${MODULES}.Add("PSFzf")
-[Void]${MODULES}.Add("Recycle")
-[Void]${MODULES}.Add("Terminal-Icons")
-[Void]${MODULES}.Add("PSKubeContext")
-[Void]${MODULES}.Add("ZLocation")
-[Void]${MODULES}.Add("PoShLog")
-
-if ( ${isWindows} ) {
-  ${ENV:PATH} += ";${HOME}\.local\bin"
-  ${ENV:NREDF_LRCACHE} = "${ENV:LOCALAPPDATA}\nredf\LRCache"
-  [Void]${MODULES}.Add("GuiCompletion")
-} elseif ( ${isLinux} ) {
-  ${ENV:PATH} += ";${XDG_BIN_HOME}"
-  ${ENV:POSH_THEMES_PATH} = "${ENV:XDG_CACHE_HOME}/oh-my-posh/themes"
-  ${ENV:NREDF_LRCACHE} = "${ENV:XDG_CACHE_HOME}/nredf/LRCache"
-}
+. "${SCRIPT_PATH}\Modules.ps1"
 
 if (Test-Path "${SCRIPT_PATH}\Local_Modules.ps1") {
   . "${SCRIPT_PATH}\Local_Modules.ps1"
 }
 
-# Load Modules and install if necessary
-foreach (${MODULE} in ${MODULES}) {
-  UpdateModule ${MODULE}
-  LoadModule ${MODULE}
-}
+# Update and Load Modules or install if necessary
+LoadModules ${MODULES}
 
 # Set Powershell Theme
 if (Get-Command oh-my-posh -errorAction SilentlyContinue) {
