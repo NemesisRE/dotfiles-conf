@@ -17,11 +17,12 @@ function LoadModule (${MODULE}) {
 }
 
 function UpdateModule (${MODULE}) {
-  if ((Get-Module | Where-Object { $_.Name -eq ${MODULE} }) -or (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} })) {
-    if (NredfLastRun) {
+  [string] $CurrentFunctionModule = (Get-PSCallStack)[0].FunctionName + "_" + ${MODULE}
+  if (Get-InstalledModule ${MODULE} -ErrorAction silentlycontinue) {
+    if (NredfLastRun -CurrentFunction $CurrentFunctionModule) {
       Update-Module -Name ${MODULE}
       if ($?) {
-        NredfLastRun -Success $true
+        [Void] (NredfLastRun -CurrentFunction $CurrentFunctionModule -Success $true)
       }
     }
   }
