@@ -18,7 +18,7 @@ function LoadModule (${MODULE}) {
 
 function UpdateModule (${MODULE}) {
   if ((Get-Module | Where-Object { $_.Name -eq ${MODULE} }) -or (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} })) {
-    if ([bool](NredfLastRun -CurrentFunction [string]$(Get-PSCallStack)[0].FunctionName + "_" + ${MODULE})) {
+    if ([bool](NredfLastRun -CurrentFunction ([string]$(Get-PSCallStack)[0].FunctionName + "_" + ${MODULE}))) {
       Update-Module -Name ${MODULE}
     }
   }
@@ -31,7 +31,7 @@ function NredfLastRun {
     [Parameter(Mandatory=$false)]
     [bool] $Success = $false,
     [Parameter(Mandatory=$false)]
-    [int] $NextRun = (Get-Date).AddHours(12).Ticks
+    [long] $NextRun = (Get-Date).AddHours(12).ToFileTime()
   )
 
   if (-not [string]::IsNullOrEmpty($CurrentFunction)) {
@@ -52,10 +52,10 @@ function NredfLastRun {
   $LastRunFile = Join-Path -Path ${ENV:NREDF_LRCACHE} -ChildPath ("last_run_${CurrentFunction}.txt")
 
   # Get Last Run Time (default 0 if file doesn't exist)
-  $LastRun = (Get-Content -Path $LastRunFile -ErrorAction SilentlyContinue | ConvertTo-Int32 -ErrorAction SilentlyContinue) -or 0
+  [long] $LastRun = (Get-Content -Path $LastRunFile -ErrorAction SilentlyContinue) -or 0
 
   # Check for previous run
-  if ($LastRun -gt (Get-Date).Ticks) {
+  if ($LastRun -gt (Get-Date).ToFileTime()) {
     return 0
   } elseif ($Success) {
     Set-Content -Path $LastRunFile -Value $NextRun
