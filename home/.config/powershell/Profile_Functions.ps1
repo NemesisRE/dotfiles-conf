@@ -18,7 +18,7 @@ function LoadModule (${MODULE}) {
 
 function UpdateModule (${MODULE}) {
   if ((Get-Module | Where-Object { $_.Name -eq ${MODULE} }) -or (Get-Module -ListAvailable | Where-Object { $_.Name -eq ${MODULE} })) {
-    if ([bool] NredfLastRun) {
+    if (NredfLastRun) {
       Update-Module -Name ${MODULE}
     }
   }
