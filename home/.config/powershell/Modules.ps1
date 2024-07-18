@@ -7,4 +7,5 @@
 [Void]${MODULES}.Add("ZLocation")
 [Void]${MODULES}.Add("PoShLog")
 [Void]${MODULES}.Add("Get-ChildItemColor")
-
+[Void]${MODULES}.Add("Microsoft.PowerShell.SecretManagement")
+[Void]${MODULES}.Add("Microsoft.PowerShell.SecretStore")
