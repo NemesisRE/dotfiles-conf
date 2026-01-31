@@ -41,6 +41,7 @@
 	rc = rebase --continue
 	pullsub = "!f(){ git submodule sync; git submodule update --init --remote --recursive; }; f"
 	pullall = "!f(){ git pull \"$@\"; git submodule update --init --remote --recursive; }; f"
+  gone = "!f() { git fetch --prune && git branch -vv | grep \": gone]\" | awk \"{print \\$1}\" | xargs -r git branch -d; }; f"
 	# Log aliases
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)- %an%Creset' --abbrev-commit --date=relative
 	lstat = log --stat --relative --abbrev-commit --date=local --pretty=format:'%C(white)%h %C(cyan)%cr %C(green)by %cn %Creset%C(yellow)%n%s%Creset'
