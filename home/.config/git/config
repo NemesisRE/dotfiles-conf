@@ -48,11 +48,3 @@
 
 [credential]
 	helper = cache --timeout=3600
-
-[gpg]
-	format = ssh
-
-[gpg "ssh"]
-	allowedSignersFile = $HOME/.ssh/allowedSigners
-
-
